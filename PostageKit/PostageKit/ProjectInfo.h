@@ -11,4 +11,9 @@
 
 @interface ProjectInfo : JSONObject
 
+@property (readonly, nonatomic, strong) NSString *name;
+@property (readonly, nonatomic, strong) NSString *url;
+@property (readonly, nonatomic, strong) NSDictionary *transmissions;
+@property (readonly, nonatomic, strong) NSDictionary *users;
+
 @end

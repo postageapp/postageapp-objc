@@ -13,7 +13,12 @@
 - (id)initWithJSON:(id)json
 {
     if (self = [super initWithJSON:json]) {
+        NSDictionary *project = [json valueForKey:@"project"];
         
+        _name = [[project valueForKey:@"name"] nilForNull];
+        _url = [[project valueForKey:@"url"] nilForNull];
+        _transmissions = [[project valueForKey:@"transmissions"] nilForNull];
+        _users = [[project valueForKey:@"users"] nilForNull];
     }
     
     return self;

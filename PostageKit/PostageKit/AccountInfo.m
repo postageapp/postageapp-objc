@@ -13,7 +13,12 @@
 - (id)initWithJSON:(id)json
 {
     if (self = [super initWithJSON:json]) {
+        NSDictionary *account = [json valueForKey:@"account"];
         
+        _name = [[account valueForKey:@"name"] nilForNull];
+        _url = [[account valueForKey:@"url"] nilForNull];
+        _transmissions = [[account valueForKey:@"transmissions"] nilForNull];
+        _users = [[account valueForKey:@"users"] nilForNull];
     }
     
     return self;

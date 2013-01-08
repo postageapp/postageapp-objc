@@ -13,7 +13,7 @@
 - (id)initWithJSON:(id)json
 {
     if (self = [super initWithJSON:json]) {
-        
+        _ID = [[[json valueForKey:@"message"] valueForKey:@"id"] intValue];
     }
     
     return self;

@@ -293,7 +293,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
             
             while (messageUID = [[data keyEnumerator] nextObject]) {
                 NSDictionary *messageJSON = [data valueForKey:messageUID];
-                [messages setValue:[[PostageMessage alloc] initWithJSON:messageJSON] forKey:messageUID];
+                [messages setValue:[[PostageMessage alloc] initWithJSON:messageJSON forUID:messageUID] forKey:messageUID];
             }
             
             if (success) {

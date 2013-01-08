@@ -1,5 +1,5 @@
 //
-//  MessageReceipt.h
+//  NSObject+TWG.h
 //  PostageKit
 //
 //  Created by Stephan Leroux on 2013-01-08.
@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONObject.h"
 
-@interface MessageReceipt : JSONObject
+@interface NSObject (TWG)
 
-@property (readonly, nonatomic, assign) NSUInteger ID;
+- (id)nilForNull;
 
 @end

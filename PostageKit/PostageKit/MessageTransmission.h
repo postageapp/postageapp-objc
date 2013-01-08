@@ -10,4 +10,11 @@
 
 @interface MessageTransmission : JSONObject
 
+@property (readonly, nonatomic, strong) NSString *status;
+@property (readonly, nonatomic, strong) NSDate *createdAt;
+@property (readonly, nonatomic, strong) NSDate *failedAt;
+@property (readonly, nonatomic, strong) NSDate *openedAt;
+@property (readonly, nonatomic, strong) NSString *resultCode;
+@property (readonly, nonatomic, strong) NSString *resultMessage;
+
 @end

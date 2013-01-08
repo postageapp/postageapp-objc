@@ -66,6 +66,8 @@
 		E9C5210C169C83E000DAD68B /* PostageMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5210A169C83E000DAD68B /* PostageMessage.m */; };
 		E9C5210F169C853E00DAD68B /* MessageTransmission.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C5210D169C853D00DAD68B /* MessageTransmission.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C52110169C853E00DAD68B /* MessageTransmission.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5210E169C853D00DAD68B /* MessageTransmission.m */; };
+		E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C52129169C89A800DAD68B /* NSObject+TWG.h */; };
+		E9C5212C169C89A800DAD68B /* NSObject+TWG.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5212A169C89A800DAD68B /* NSObject+TWG.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +147,8 @@
 		E9C5210A169C83E000DAD68B /* PostageMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostageMessage.m; sourceTree = "<group>"; };
 		E9C5210D169C853D00DAD68B /* MessageTransmission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTransmission.h; sourceTree = "<group>"; };
 		E9C5210E169C853D00DAD68B /* MessageTransmission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTransmission.m; sourceTree = "<group>"; };
+		E9C52129169C89A800DAD68B /* NSObject+TWG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TWG.h"; sourceTree = "<group>"; };
+		E9C5212A169C89A800DAD68B /* NSObject+TWG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TWG.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +214,8 @@
 				E9C52019169C72EA00DAD68B /* PostageKit.h */,
 				E9C5201A169C731100DAD68B /* PostageClient.h */,
 				E9C5201B169C731100DAD68B /* PostageClient.m */,
+				E9C52129169C89A800DAD68B /* NSObject+TWG.h */,
+				E9C5212A169C89A800DAD68B /* NSObject+TWG.m */,
 			);
 			path = PostageKit;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				E9C520EA169C756F00DAD68B /* AFURLConnectionOperation.h in Headers */,
 				E9C520EC169C756F00DAD68B /* AFXMLRequestOperation.h in Headers */,
 				E9C520EE169C756F00DAD68B /* UIImageView+AFNetworking.h in Headers */,
+				E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +476,7 @@
 				E9C52108169C827700DAD68B /* JSONObject.m in Sources */,
 				E9C5210C169C83E000DAD68B /* PostageMessage.m in Sources */,
 				E9C52110169C853E00DAD68B /* MessageTransmission.m in Sources */,
+				E9C5212C169C89A800DAD68B /* NSObject+TWG.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
