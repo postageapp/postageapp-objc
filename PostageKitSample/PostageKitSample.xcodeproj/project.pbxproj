@@ -24,7 +24,7 @@
 		E9C520C7169C74F900DAD68B /* libPostageKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C520BE169C74DC00DAD68B /* libPostageKit.a */; };
 		E9C52112169C871900DAD68B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C52111169C871900DAD68B /* MobileCoreServices.framework */; };
 		E9C52114169C872000DAD68B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C52113169C872000DAD68B /* SystemConfiguration.framework */; };
-		E9C5212F169C8D7B00DAD68B /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5212E169C8D7B00DAD68B /* RootViewController.m */; };
+		E9DB4334169DDE080039AA7A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DB4333169DDE080039AA7A /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,8 +81,8 @@
 		E9C520B7169C74DC00DAD68B /* PostageKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PostageKit.xcodeproj; path = ../PostageKit/PostageKit.xcodeproj; sourceTree = "<group>"; };
 		E9C52111169C871900DAD68B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E9C52113169C872000DAD68B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		E9C5212D169C8D7B00DAD68B /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		E9C5212E169C8D7B00DAD68B /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		E9DB4332169DDE080039AA7A /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		E9DB4333169DDE080039AA7A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +151,8 @@
 				E9C5203F169C73C700DAD68B /* AppDelegate.h */,
 				E9C52040169C73C700DAD68B /* AppDelegate.m */,
 				E9C52037169C73C700DAD68B /* Supporting Files */,
-				E9C5212D169C8D7B00DAD68B /* RootViewController.h */,
-				E9C5212E169C8D7B00DAD68B /* RootViewController.m */,
+				E9DB4332169DDE080039AA7A /* RootViewController.h */,
+				E9DB4333169DDE080039AA7A /* RootViewController.m */,
 			);
 			path = PostageKitSample;
 			sourceTree = "<group>";
@@ -334,7 +334,7 @@
 			files = (
 				E9C5203D169C73C700DAD68B /* main.m in Sources */,
 				E9C52041169C73C700DAD68B /* AppDelegate.m in Sources */,
-				E9C5212F169C8D7B00DAD68B /* RootViewController.m in Sources */,
+				E9DB4334169DDE080039AA7A /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
