@@ -11,7 +11,7 @@
 #import "AFHTTPClient.h"
 
 typedef void (^PostageSuccessBlock)(id);
-typedef void (^PostageErrorBlock)(NSError *, id);
+typedef void (^PostageErrorBlock)(NSError *error, id json);
 
 @class MessageParams, MessageReceipt, AccountInfo, ProjectInfo;
 

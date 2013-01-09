@@ -16,6 +16,12 @@
 #import "PostageMessage.h"
 #import "MessageTransmission.h"
 
+typedef void (^AFHTTPClientSuccess)(AFHTTPRequestOperation *, id);
+typedef void (^AFHTTPClientError)(AFHTTPRequestOperation *, NSError *);
+
+typedef void (^RailsParseSuccess)(id json);
+typedef void (^RailsParseError)(NSError *error, id json);
+
 static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 
 #define kAPIVersion @"v.1.0"
@@ -52,9 +58,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 - (id)initWithBaseURL:(NSURL *)url
 {
     if (self = [super initWithBaseURL:url]) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-        
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
+        [self registerHTTPOperationClass:[AFHTTPRequestOperation class]];
     }
     
     return self;
@@ -84,6 +88,43 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     }
 }
 
+
+- (void)parseRailsPostPath:(NSString *)path
+            withParameters:(NSDictionary *)parameters
+                   success:(RailsParseSuccess)success
+                     error:(RailsParseError)error
+{
+    // Wrap the original AFHTTPClient method to handle the rails response which comes as text/html from the API :(
+    AFHTTPClientSuccess wrappedSuccess = ^(AFHTTPRequestOperation *operation, id responseData) {
+        NSError *jsonError;
+        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
+        
+        if (jsonError) {
+            error(jsonError, nil);
+            return;
+        }
+        
+        NSError *errorObj;
+        if ((errorObj = [self checkResponseForError:responseObject])) {
+            if (error) {
+                error(errorObj, responseObject);
+            }
+        } else {
+            if (success) {
+                success([responseObject valueForKey:@"data"]);
+            }
+        }
+    };
+    
+    AFHTTPClientError wrappedError = ^(AFHTTPRequestOperation *operation, NSError *errorObj) {
+        if (error) {
+            error(errorObj, [((AFJSONRequestOperation *)operation) responseString]);
+        }
+    };
+    
+    [self postPath:path parameters:parameters success:wrappedSuccess failure:wrappedError];
+}
+
 # pragma mark - API methods
 
 - (void)sendMessage:(MessageParams *)messageParams
@@ -102,34 +143,13 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_projectAPIKey forKey:@"api_key"];
     [params setValue:messageParams.UID forKey:@"uid"];
-    NSDictionary *arguments = @{
-        @"recipients" : messageParams.recipients,
-        @"headers" : messageParams.headers,
-        @"content" : messageParams.content,
-        @"attachments" : messageParams.attachments,
-        @"template" : messageParams.templateName,
-        @"variables" : messageParams.variables,
-        @"recipient_override" : messageParams.recipientOverrideAddress
-    };
+    [params setValue:[messageParams json] forKey:@"arguments"];
     
-    [params setValue:arguments forKey:@"arguments"];
-    
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([[[responseObject valueForKey:@"data"] valueForKey:@"message"] valueForKey:@"id"]);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        if (success) {
+            success([[json valueForKey:@"message"] valueForKey:@"id"]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }];
+    } error:nil];
 }
 
 - (void)messageReceiptForUID:(NSString *)uid
@@ -150,24 +170,13 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
         @"uid" : uid
     };
     
-    [self getPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            MessageReceipt *messageReceipt = [[MessageReceipt alloc] initWithJSON:[responseObject valueForKey:@"data"]];
-            
-            if (success) {
-                success(messageReceipt);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        MessageReceipt *messageReceipt = [[MessageReceipt alloc] initWithJSON:json];
+        
+        if (success) {
+            success(messageReceipt);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }];
+    } error:nil];
 }
 
 - (void)methodListWithSuccess:(PostageSuccessBlock)success
@@ -184,22 +193,11 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMethodListEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([[responseObject valueForKey:@"data"] valueForKey:@"methods"]);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        if (success) {
+            success([json valueForKey:@"methods"]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }];
+    } error:nil];
 }
 
 - (void)accountInfoWithSuccess:(PostageSuccessBlock)success
@@ -216,22 +214,11 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetAccountInfoEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([[AccountInfo alloc] initWithJSON:[responseObject valueForKey:@"data"]]);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        if (success) {
+            success([[AccountInfo alloc] initWithJSON:json]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }];
+    } error:nil];
 }
 
 - (void)projectInfoWithSuccess:(PostageSuccessBlock)success
@@ -248,22 +235,11 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetProjectInfoEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([[ProjectInfo alloc] initWithJSON:[responseObject valueForKey:@"data"]]);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        if (success) {
+            success([[ProjectInfo alloc] initWithJSON:json]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }];
+    } error:nil];
 }
 
 - (void)messagesWithSuccess:(PostageSuccessBlock)success
@@ -280,31 +256,19 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessagesEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            NSMutableDictionary *messages = [NSMutableDictionary dictionary];
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSString *messageUID = nil;
-            
-            while (messageUID = [[data keyEnumerator] nextObject]) {
-                NSDictionary *messageJSON = [data valueForKey:messageUID];
-                [messages setValue:[[PostageMessage alloc] initWithJSON:messageJSON forUID:messageUID] forKey:messageUID];
-            }
-            
-            if (success) {
-                success(messages);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        NSMutableDictionary *messages = [NSMutableDictionary dictionary];
+        
+        for (NSString *messageUID in json) {
+            NSDictionary *messageJSON = [json valueForKey:messageUID];
+            [messages setValue:[[PostageMessage alloc] initWithJSON:messageJSON forUID:messageUID] forKey:messageUID];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
+        
+        if (success) {
+            success(messages);
         }
-    }];
+
+    } error:nil];
 }
 
 - (void)messageTransmissionsForUID:(NSString *)uid
@@ -322,30 +286,18 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessageTransmissionsEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey, @"uid" : uid };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            NSMutableArray *transmissions = [NSMutableArray array];
-            NSDictionary *transmissionsJSON = [[responseObject valueForKey:@"data"] valueForKey:@"transmissions"];
-            NSString *transmissionKey = nil;
-            
-            while (transmissionKey = [[transmissionsJSON keyEnumerator] nextObject]) {
-                [transmissions addObject:[[MessageTransmission alloc] initWithJSON:[transmissionsJSON valueForKey:transmissionKey]]];
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        NSMutableArray *transmissions = [NSMutableArray array];
+        NSDictionary *transmissionsJSON = [json valueForKey:@"transmissions"];
         
-            if (success) {
-                success(transmissions);
-            }
+        for (NSString *transmissionKey in transmissionsJSON) {
+            [transmissions addObject:[[MessageTransmission alloc] initWithJSON:[transmissionsJSON valueForKey:transmissionKey]]];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
+        
+        if (success) {
+            success(transmissions);
         }
-    }];
+    } error:nil];
 }
 
 - (void)metricsWithSuccess:(PostageSuccessBlock)success
@@ -362,22 +314,11 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMetricsEndpoint];
     NSDictionary *params = @{ @"api_key" : _projectAPIKey };
     
-    [self postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([[responseObject valueForKey:@"data"] valueForKey:@"metrics"]);
-            }
+    [self parseRailsPostPath:path withParameters:params success:^(id json) {
+        if (success) {
+            success([json valueForKey:@"metrics"]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *errorObj) {
-        if (error) {
-            error(errorObj, [((AFJSONRequestOperation *)operation) responseJSON]);
-        }
-    }]; 
+    } error:nil];
 }
 
 @end

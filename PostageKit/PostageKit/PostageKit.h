@@ -10,7 +10,6 @@
 #define PostageKit_PostageKit_h
 
 #import <Foundation/Foundation.h>
-
 #import <PostageKit/PostageClient.h>
 
 #endif

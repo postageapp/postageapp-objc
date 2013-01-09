@@ -11,12 +11,16 @@
 @interface MessageParams : NSObject
 
 @property (nonatomic, strong) NSString *UID;
-@property (nonatomic, strong) NSMutableArray *recipients;
-@property (nonatomic, strong) NSMutableDictionary *headers;
-@property (nonatomic, strong) NSMutableDictionary *content;
-@property (nonatomic, strong) NSMutableDictionary *attachments;
+@property (nonatomic, strong) NSArray *recipients;
+@property (nonatomic, strong) NSDictionary *headers;
+@property (nonatomic, strong) NSDictionary *content;
+@property (nonatomic, strong) NSDictionary *attachments;
 @property (nonatomic, strong) NSString *templateName;
-@property (nonatomic, strong) NSMutableDictionary *variables;
+@property (nonatomic, strong) NSDictionary *variables;
 @property (nonatomic, strong) NSString *recipientOverrideAddress;
+
++ (id)params;
+
+- (NSDictionary *)json;
 
 @end

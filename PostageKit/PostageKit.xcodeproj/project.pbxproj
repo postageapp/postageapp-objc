@@ -66,7 +66,7 @@
 		E9C5210C169C83E000DAD68B /* PostageMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5210A169C83E000DAD68B /* PostageMessage.m */; };
 		E9C5210F169C853E00DAD68B /* MessageTransmission.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C5210D169C853D00DAD68B /* MessageTransmission.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C52110169C853E00DAD68B /* MessageTransmission.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5210E169C853D00DAD68B /* MessageTransmission.m */; };
-		E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C52129169C89A800DAD68B /* NSObject+TWG.h */; };
+		E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C52129169C89A800DAD68B /* NSObject+TWG.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E9C5212C169C89A800DAD68B /* NSObject+TWG.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C5212A169C89A800DAD68B /* NSObject+TWG.m */; };
 /* End PBXBuildFile section */
 
@@ -209,13 +209,12 @@
 		E9C51FE4169C724100DAD68B /* PostageKit */ = {
 			isa = PBXGroup;
 			children = (
-				E9C520F4169C795500DAD68B /* Models */,
-				E9C51FE5169C724100DAD68B /* Supporting Files */,
 				E9C52019169C72EA00DAD68B /* PostageKit.h */,
 				E9C5201A169C731100DAD68B /* PostageClient.h */,
 				E9C5201B169C731100DAD68B /* PostageClient.m */,
-				E9C52129169C89A800DAD68B /* NSObject+TWG.h */,
-				E9C5212A169C89A800DAD68B /* NSObject+TWG.m */,
+				E9DB431C169DC3C10039AA7A /* Categories */,
+				E9C520F4169C795500DAD68B /* Models */,
+				E9C51FE5169C724100DAD68B /* Supporting Files */,
 			);
 			path = PostageKit;
 			sourceTree = "<group>";
@@ -302,6 +301,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		E9DB431C169DC3C10039AA7A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E9C52129169C89A800DAD68B /* NSObject+TWG.h */,
+				E9C5212A169C89A800DAD68B /* NSObject+TWG.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -319,6 +327,7 @@
 				E9C5210B169C83E000DAD68B /* PostageMessage.h in Headers */,
 				E9C5210F169C853E00DAD68B /* MessageTransmission.h in Headers */,
 				E9C520DD169C756F00DAD68B /* AFHTTPClient.h in Headers */,
+				E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */,
 				E9C520DF169C756F00DAD68B /* AFHTTPRequestOperation.h in Headers */,
 				E9C520E1169C756F00DAD68B /* AFImageRequestOperation.h in Headers */,
 				E9C520E3169C756F00DAD68B /* AFJSONRequestOperation.h in Headers */,
@@ -328,7 +337,6 @@
 				E9C520EA169C756F00DAD68B /* AFURLConnectionOperation.h in Headers */,
 				E9C520EC169C756F00DAD68B /* AFXMLRequestOperation.h in Headers */,
 				E9C520EE169C756F00DAD68B /* UIImageView+AFNetworking.h in Headers */,
-				E9C5212B169C89A800DAD68B /* NSObject+TWG.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +665,7 @@
 				E9C52006169C724100DAD68B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E9C52007169C724100DAD68B /* Build configuration list for PBXNativeTarget "PostageKitTests" */ = {
 			isa = XCConfigurationList;
@@ -665,6 +674,7 @@
 				E9C52009169C724100DAD68B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E9C5206F169C740100DAD68B /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
@@ -673,6 +683,7 @@
 				E9C52071169C740100DAD68B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
