@@ -12,4 +12,11 @@
 #import <Foundation/Foundation.h>
 #import <PostageKit/PostageClient.h>
 
+// Models
+#import <PostageKit/MessageParams.h>
+#import <PostageKit/AccountInfo.h>
+#import <PostageKit/ProjectInfo.h>
+#import <PostageKit/PostageMessage.h>
+#import <PostageKit/MessageTransmission.h>
+
 #endif

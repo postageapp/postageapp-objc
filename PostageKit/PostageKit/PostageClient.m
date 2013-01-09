@@ -9,7 +9,6 @@
 #import "PostageClient.h"
 
 #import "AFJSONRequestOperation.h"
-#import "MessageReceipt.h"
 #import "MessageParams.h"
 #import "AccountInfo.h"
 #import "ProjectInfo.h"
@@ -128,7 +127,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 # pragma mark - API methods
 
 - (void)sendMessage:(MessageParams *)messageParams
-            success:(PostageSuccessBlock)success
+            success:(SendMessageBlock)success
               error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -147,13 +146,13 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
-            success([[json valueForKey:@"message"] valueForKey:@"id"]);
+            success([[[json valueForKey:@"message"] valueForKey:@"id"] integerValue]);
         }
     } error:nil];
 }
 
 - (void)messageReceiptForUID:(NSString *)uid
-                                 success:(PostageSuccessBlock)success
+                                 success:(MessageReceiptBlock)success
                                    error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -171,15 +170,13 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
-        MessageReceipt *messageReceipt = [[MessageReceipt alloc] initWithJSON:json];
-        
         if (success) {
-            success(messageReceipt);
+            success([[[json valueForKey:@"message"] valueForKey:@"id"] integerValue]);
         }
     } error:nil];
 }
 
-- (void)methodListWithSuccess:(PostageSuccessBlock)success
+- (void)methodListWithSuccess:(MethodListBlock)success
                         error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -200,7 +197,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     } error:nil];
 }
 
-- (void)accountInfoWithSuccess:(PostageSuccessBlock)success
+- (void)accountInfoWithSuccess:(AccountInfoBlock)success
                          error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -221,7 +218,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     } error:nil];
 }
 
-- (void)projectInfoWithSuccess:(PostageSuccessBlock)success
+- (void)projectInfoWithSuccess:(ProjectInfoBlock)success
                          error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -242,7 +239,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     } error:nil];
 }
 
-- (void)messagesWithSuccess:(PostageSuccessBlock)success
+- (void)messagesWithSuccess:(MessagesBlock)success
                       error:(PostageErrorBlock)error;
 {
     NSError *errorObj = nil;
@@ -272,7 +269,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 }
 
 - (void)messageTransmissionsForUID:(NSString *)uid
-                           success:(PostageSuccessBlock)success
+                           success:(MessageTransmissionsBlock)success
                              error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;
@@ -300,7 +297,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     } error:nil];
 }
 
-- (void)metricsWithSuccess:(PostageSuccessBlock)success
+- (void)metricsWithSuccess:(MetricsBlock)success
                      error:(PostageErrorBlock)error
 {
     NSError *errorObj = nil;

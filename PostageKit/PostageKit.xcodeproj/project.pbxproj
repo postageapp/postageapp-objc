@@ -54,8 +54,6 @@
 		E9C520F3169C759600DAD68B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C520F2169C759600DAD68B /* SystemConfiguration.framework */; };
 		E9C520F7169C796C00DAD68B /* MessageParams.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C520F5169C796C00DAD68B /* MessageParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C520F8169C796C00DAD68B /* MessageParams.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C520F6169C796C00DAD68B /* MessageParams.m */; };
-		E9C520FB169C797C00DAD68B /* MessageReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C520F9169C797C00DAD68B /* MessageReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9C520FC169C797C00DAD68B /* MessageReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C520FA169C797C00DAD68B /* MessageReceipt.m */; };
 		E9C520FF169C798400DAD68B /* AccountInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C520FD169C798400DAD68B /* AccountInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C52100169C798400DAD68B /* AccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C520FE169C798400DAD68B /* AccountInfo.m */; };
 		E9C52103169C798B00DAD68B /* ProjectInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C52101169C798B00DAD68B /* ProjectInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,8 +133,6 @@
 		E9C520F2169C759600DAD68B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E9C520F5169C796C00DAD68B /* MessageParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageParams.h; sourceTree = "<group>"; };
 		E9C520F6169C796C00DAD68B /* MessageParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageParams.m; sourceTree = "<group>"; };
-		E9C520F9169C797C00DAD68B /* MessageReceipt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageReceipt.h; sourceTree = "<group>"; };
-		E9C520FA169C797C00DAD68B /* MessageReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageReceipt.m; sourceTree = "<group>"; };
 		E9C520FD169C798400DAD68B /* AccountInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountInfo.h; sourceTree = "<group>"; };
 		E9C520FE169C798400DAD68B /* AccountInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountInfo.m; sourceTree = "<group>"; };
 		E9C52101169C798B00DAD68B /* ProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectInfo.h; sourceTree = "<group>"; };
@@ -285,8 +281,6 @@
 			children = (
 				E9C520F5169C796C00DAD68B /* MessageParams.h */,
 				E9C520F6169C796C00DAD68B /* MessageParams.m */,
-				E9C520F9169C797C00DAD68B /* MessageReceipt.h */,
-				E9C520FA169C797C00DAD68B /* MessageReceipt.m */,
 				E9C520FD169C798400DAD68B /* AccountInfo.h */,
 				E9C520FE169C798400DAD68B /* AccountInfo.m */,
 				E9C52101169C798B00DAD68B /* ProjectInfo.h */,
@@ -320,7 +314,6 @@
 				E9C5201E169C733600DAD68B /* PostageKit.h in Headers */,
 				E9C5201F169C733600DAD68B /* PostageClient.h in Headers */,
 				E9C520F7169C796C00DAD68B /* MessageParams.h in Headers */,
-				E9C520FB169C797C00DAD68B /* MessageReceipt.h in Headers */,
 				E9C520FF169C798400DAD68B /* AccountInfo.h in Headers */,
 				E9C52103169C798B00DAD68B /* ProjectInfo.h in Headers */,
 				E9C52107169C827700DAD68B /* JSONObject.h in Headers */,
@@ -478,7 +471,6 @@
 				E9C520ED169C756F00DAD68B /* AFXMLRequestOperation.m in Sources */,
 				E9C520EF169C756F00DAD68B /* UIImageView+AFNetworking.m in Sources */,
 				E9C520F8169C796C00DAD68B /* MessageParams.m in Sources */,
-				E9C520FC169C797C00DAD68B /* MessageReceipt.m in Sources */,
 				E9C52100169C798400DAD68B /* AccountInfo.m in Sources */,
 				E9C52104169C798B00DAD68B /* ProjectInfo.m in Sources */,
 				E9C52108169C827700DAD68B /* JSONObject.m in Sources */,
