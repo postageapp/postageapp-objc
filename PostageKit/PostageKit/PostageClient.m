@@ -24,6 +24,7 @@ typedef void (^RailsParseError)(NSError *error, id json);
 static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 
 #define kAPIVersion @"v.1.0"
+#define kVersion @"1.0.1"
 
 #define kSendMessageEndpoint @"send_message.json"
 #define kGetMessageReceiptEndpoint @"get_message_receipt.json"
@@ -59,6 +60,14 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     if (self = [super initWithBaseURL:url]) {
         [self registerHTTPOperationClass:[AFHTTPRequestOperation class]];
     }
+    
+    
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+    // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
+    [self setDefaultHeader:@"User-Agent" value:[NSString stringWithFormat:@"POSTAGEKIT %@ (%@; iOS %@; Scale/%0.2f)", kVersion, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)]];
+#elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+    [self setDefaultHeader:@"User-Agent" value:[NSString stringWithFormat:@"POSTAGEKIT %@ (Mac OS X %@)", kVersion, [[NSProcessInfo processInfo] operatingSystemVersionString]]];
+#endif
     
     return self;
 }

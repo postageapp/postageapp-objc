@@ -434,9 +434,12 @@
 		E9C52060169C73C800DAD68B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostageKitSample/PostageKitSample-Prefix.pch";
 				INFOPLIST_FILE = "PostageKitSample/PostageKitSample-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-objc",
@@ -449,9 +452,11 @@
 		E9C52061169C73C800DAD68B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostageKitSample/PostageKitSample-Prefix.pch";
 				INFOPLIST_FILE = "PostageKitSample/PostageKitSample-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-objc",
