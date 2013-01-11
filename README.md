@@ -22,6 +22,8 @@ Next, add the following to your 'Build Phases'
 	* PostageKit
 * Link Binary With Libraries
 	* libPostageKit.a
+	* MobileCoreServices.framework
+	* SystemConfiguration.framework
 		
 		
 Finally, add the PostageKit Framework header to your project's .pch file
