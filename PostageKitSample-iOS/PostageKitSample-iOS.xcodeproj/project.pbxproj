@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E972774416C99B3D00C19C1D /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E972774316C99B3D00C19C1D /* RootViewController.xib */; };
 		E9C52031169C73C700DAD68B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C52030169C73C700DAD68B /* UIKit.framework */; };
 		E9C52033169C73C700DAD68B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C52032169C73C700DAD68B /* Foundation.framework */; };
 		E9C52035169C73C700DAD68B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C52034169C73C700DAD68B /* CoreGraphics.framework */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		E97276C016C9964C00C19C1D /* PostageKitSample-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostageKitSample-iOS-Prefix.pch"; sourceTree = "<group>"; };
+		E972774316C99B3D00C19C1D /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		E9C5202C169C73C700DAD68B /* PostageKitSample-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PostageKitSample-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9C52030169C73C700DAD68B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E9C52032169C73C700DAD68B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -152,6 +154,7 @@
 				E9C52040169C73C700DAD68B /* AppDelegate.m */,
 				E9DB4332169DDE080039AA7A /* RootViewController.h */,
 				E9DB4333169DDE080039AA7A /* RootViewController.m */,
+				E972774316C99B3D00C19C1D /* RootViewController.xib */,
 				E9C52037169C73C700DAD68B /* Supporting Files */,
 				E9E3985916C98CDA0022B64F /* Vendor */,
 			);
@@ -292,6 +295,7 @@
 				E9C52043169C73C700DAD68B /* Default.png in Resources */,
 				E9C52045169C73C700DAD68B /* Default@2x.png in Resources */,
 				E9C52047169C73C700DAD68B /* Default-568h@2x.png in Resources */,
+				E972774416C99B3D00C19C1D /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

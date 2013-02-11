@@ -36,16 +36,13 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 #define kGetMessagesEndpoint @"get_messages.json"
 #define kGetMessageTransmissionsEndpoint @"get_message_transmissions.json"
 #define kGetMetricsEndpoint @"get_metrics.json"
-#define kGetMessageStatusEndpoint @"get_message_status.json"
+#define kMessageStatusEndpoint @"message_status.json"
 #define kMessageDeliveryStatusEndpoint @"message_delivery_status.json"
 #define kGetRecipientsListEndpoint @"get_recipients_list.json"
 
-#define kStatusFail 1
 #define kNoProjectAPIKeySet 2
 
 @interface PostageClient()
-
-- (BOOL)hasProjectAPIKeyWithError:(PostageErrorBlock)errorBlock;
 
 - (void)parseRailsPostPath:(NSString *)path
             withParameters:(NSDictionary *)parameters
@@ -82,35 +79,6 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
     return self;
 }
 
-- (BOOL)hasProjectAPIKeyWithError:(PostageErrorBlock)errorBlock
-{
-    if (!_projectAPIKey) {
-        // Error
-        NSError *error = [[NSError alloc] initWithDomain:@"api.postageapp.com" code:kNoProjectAPIKeySet userInfo:nil];
-        
-        if (errorBlock) {
-            errorBlock(error, nil);
-        }
-        
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-- (NSError *)checkResponseForError:(NSDictionary *)responseObject
-{
-    NSDictionary *response = [responseObject valueForKey:@"response"];
-    
-    if (![[response valueForKey:@"status"] isEqual:@"ok"]) {
-        // Error
-        NSError *error = [[NSError alloc] initWithDomain:@"api.postageapp.com" code:kStatusFail userInfo:nil];
-        return error;
-    } else {
-        return nil;
-    }
-}
-
 - (void)parseRailsPostPath:(NSString *)path
             withParameters:(NSDictionary *)parameters
                    success:(RailsParseSuccess)success
@@ -126,19 +94,14 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
             return;
         }
         
-        NSError *errorObj;
-        if ((errorObj = [self checkResponseForError:responseObject])) {
-            if (error) {
-                error(errorObj, responseObject);
-            }
-        } else {
-            if (success) {
-                success([responseObject valueForKey:@"data"]);
-            }
+        if (success) {
+            success([responseObject valueForKey:@"data"]);
         }
     };
     
     AFHTTPClientError wrappedError = ^(AFHTTPRequestOperation *operation, NSError *errorObj) {
+        NSLog(@"%@", errorObj);
+        
         if (error) {
             error(errorObj, [((AFJSONRequestOperation *)operation) responseString]);
         }
@@ -155,7 +118,7 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
 {
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kSendMessageEndpoint];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:_projectAPIKey forKey:@"api_key"];
+    [params setValue:_projectAPIKey? _projectAPIKey : @"" forKey:@"api_key"];
     [params setValue:messageParams.UID forKey:@"uid"];
     [params setValue:[messageParams json] forKey:@"arguments"];
     
@@ -163,80 +126,87 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
         if (success) {
             success([[[json valueForKey:@"message"] valueForKey:@"id"] integerValue]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)messageReceiptForUID:(NSString *)uid
                      success:(MessageReceiptBlock)success
                        error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-    
+{    
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessageReceiptEndpoint];
-    NSDictionary *params = @{
-                             @"api_key" : _projectAPIKey,
-                             @"uid" : uid
-                             };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"", @"uid" : uid };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([[[json valueForKey:@"message"] valueForKey:@"id"] integerValue]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)methodListWithSuccess:(MethodListBlock)success
                         error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-   
+{   
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMethodListEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"" };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([json valueForKey:@"methods"]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)accountInfoWithSuccess:(AccountInfoBlock)success
                          error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-    
+{    
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetAccountInfoEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"" };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([[AccountInfo alloc] initWithJSON:json]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)projectInfoWithSuccess:(ProjectInfoBlock)success
                          error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-    
+{    
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetProjectInfoEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"" };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([[ProjectInfo alloc] initWithJSON:json]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)messagesWithSuccess:(MessagesBlock)success
                       error:(PostageErrorBlock)error;
 {
-    if (![self hasProjectAPIKeyWithError:error]) return;
-
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessagesEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"" };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         NSMutableDictionary *messages = [NSMutableDictionary dictionary];
@@ -250,17 +220,19 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
             success(messages);
         }
         
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)messageTransmissionsForUID:(NSString *)uid
                            success:(MessageTransmissionsBlock)success
                              error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-    
+{    
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessageTransmissionsEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey, @"uid" : uid };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"", @"uid" : uid };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         NSMutableArray *transmissions = [NSMutableArray array];
@@ -273,48 +245,54 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
         if (success) {
             success(transmissions);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)metricsWithSuccess:(MetricsBlock)success
                      error:(PostageErrorBlock)error
-{
-    if (![self hasProjectAPIKeyWithError:error]) return;
-    
+{    
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMetricsEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"" };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([json valueForKey:@"metrics"]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)statusForMessageWithUID:(NSString *)uid
                         success:(MessageStatusBlock)success
                           error:(PostageErrorBlock)error
 {
-    if (![self hasProjectAPIKeyWithError:error]) return;
-
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetMessageStatusEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey, @"uid": uid };
+    NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kMessageStatusEndpoint];
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"", @"uid": uid };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
             success([json valueForKey:@"message_status"]);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)deliveryStatusForMessageWithUID:(NSString *)uid
                                 success:(DeliveryStatusBlock)success
                                   error:(PostageErrorBlock)error
 {
-    if (![self hasProjectAPIKeyWithError:error]) return;
-
     NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kMessageDeliveryStatusEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey, @"uid": uid };
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"", @"uid": uid };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
@@ -327,17 +305,19 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
             
             success(statuses);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 - (void)recipientsListForMessageWithUID:(NSString *)uid
                                 success:(RecipientsListBlock)success
                                   error:(PostageErrorBlock)error
 {
-    if (![self hasProjectAPIKeyWithError:error]) return;
-
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kMessageDeliveryStatusEndpoint];
-    NSDictionary *params = @{ @"api_key" : _projectAPIKey, @"uid": uid };
+    NSString *path = [NSString stringWithFormat:@"%@/%@", kAPIVersion, kGetRecipientsListEndpoint];
+    NSDictionary *params = @{ @"api_key" : _projectAPIKey? _projectAPIKey : @"", @"uid": uid };
     
     [self parseRailsPostPath:path withParameters:params success:^(id json) {
         if (success) {
@@ -350,7 +330,11 @@ static NSString * const kPostageAppBaseURL = @"https://api.postageapp.com/";
             
             success(resultsDict);
         }
-    } error:nil];
+    } error:^(NSError *errorObj, id json) {
+        if (error) {
+            error(errorObj, json);
+        }
+    }];
 }
 
 @end
