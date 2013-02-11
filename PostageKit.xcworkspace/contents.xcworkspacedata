@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:PostageKit"
+      name = "PostageKit">
+      <FileRef
+         location = "group:AccountInfo.h">
+      </FileRef>
+      <FileRef
+         location = "group:AccountInfo.m">
+      </FileRef>
+      <FileRef
+         location = "group:JSONObject.h">
+      </FileRef>
+      <FileRef
+         location = "group:JSONObject.m">
+      </FileRef>
+      <FileRef
+         location = "group:MessageDeliveryStatus.h">
+      </FileRef>
+      <FileRef
+         location = "group:MessageDeliveryStatus.m">
+      </FileRef>
+      <FileRef
+         location = "group:MessageParams.h">
+      </FileRef>
+      <FileRef
+         location = "group:MessageParams.m">
+      </FileRef>
+      <FileRef
+         location = "group:MessageTransmission.h">
+      </FileRef>
+      <FileRef
+         location = "group:MessageTransmission.m">
+      </FileRef>
+      <FileRef
+         location = "group:NSObject+PostageKit.h">
+      </FileRef>
+      <FileRef
+         location = "group:NSObject+PostageKit.m">
+      </FileRef>
+      <FileRef
+         location = "group:PostageClient.h">
+      </FileRef>
+      <FileRef
+         location = "group:PostageClient.m">
+      </FileRef>
+      <FileRef
+         location = "group:PostageKit.h">
+      </FileRef>
+      <FileRef
+         location = "group:PostageMessage.h">
+      </FileRef>
+      <FileRef
+         location = "group:PostageMessage.m">
+      </FileRef>
+      <FileRef
+         location = "group:ProjectInfo.h">
+      </FileRef>
+      <FileRef
+         location = "group:ProjectInfo.m">
+      </FileRef>
+      <FileRef
+         location = "group:RecipientInfo.h">
+      </FileRef>
+      <FileRef
+         location = "group:RecipientInfo.m">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:PostageKitSample-Mac/PostageKitSample-Mac.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:PostageKitSample-iOS/PostageKitSample-iOS.xcodeproj">
+   </FileRef>
+</Workspace>
