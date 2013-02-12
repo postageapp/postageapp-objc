@@ -2,10 +2,8 @@ PostageKit
 ==========
 
 ##Introduction
-<br/>
-PostageKit is an Objective-C wrapper for the popular PostageApp transactional mail service and allows developers to access the PostageApp API from their iOS / Mac OSX applications.
 
-<br/>
+PostageKit is an Objective-C wrapper for the popular PostageApp transactional mail service and allows developers to access the PostageApp API from their iOS / Mac OSX applications.
 
 ##Quick Start
 
@@ -29,10 +27,8 @@ And install:
 
 You can also manually import the files from the `PostageKit/` folder into your project if you don't use Cocoapods. Note that PostageKit relies on [AFNetworking](https://github.com/AFNetworking/AFNetworking), so you will need to add those files manually as well.
 
-<br/>
 
 ## API Usage
-<br/>
 
 The API provides an asynchronous client interface by using [blocks](http://developer.apple.com/library/ios/#documentation/cocoa/Conceptual/Blocks/Articles/00_Introduction.html). To start using the API, you will first need to setup the API client with your PostageApp project API key:
 
@@ -68,8 +64,6 @@ You can also send messages as well!
 		// Error
     }];
     
-<br/>
-
 ## Authors
-<br/>
+
 [Stephan Leroux](https://github.com/sleroux/) - stephanleroux@gmail.com
