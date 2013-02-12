@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name     = 'PostageKit'
   s.version  = '1.0.0'
-  s.license  = 'MIT'
-  s.summary  = 'A Mac OSX / iOS API wrapper for the PostageApp transactional mail service'
+  s.license  =  { :type => 'MIT', :file => 'LICENSE' }
+  s.summary  = 'A Mac OSX / iOS API wrapper for the PostageApp transactional mail service.'
   s.homepage = 'https://github.com/postageapp/postageapp-objc'
   s.authors  = { 'Stephan Leroux' => 'stephanleroux@gmail.com' }
-  s.source   = { :git => 'https://github.com/postageapp/postageapp-objc.git', :tag => '1.0.0' }
-  s.source_files = 'PostageKit'
+  s.source   = { :git => 'https://github.com/sleroux/postageapp-objc.git', :tag => '1.0.0' }
+  s.source_files = 'PostageKit/*.{h,m}'
   s.requires_arc = true
   s.dependency 'AFNetworking', '>= 1.1.0'
 
@@ -15,15 +15,4 @@ Pod::Spec.new do |s|
 
   s.osx.deployment_target = '10.7'
   s.osx.frameworks = 'CoreServices', 'SystemConfiguration'
-
-  s.prefix_header_contents = <<-EOS
-#import <Availability.h>
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
-  #import <SystemConfiguration/SystemConfiguration.h>
-  #import <MobileCoreServices/MobileCoreServices.h>
-#else
-  #import <SystemConfiguration/SystemConfiguration.h>
-  #import <CoreServices/CoreServices.h>
-#endif
-EOS
 end
