@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary  = 'A Mac OSX / iOS API wrapper for the PostageApp transactional mail service.'
   s.homepage = 'https://github.com/postageapp/postageapp-objc'
   s.authors  = { 'Stephan Leroux' => 'stephanleroux@gmail.com' }
-  s.source   = { :git => 'https://github.com/sleroux/postageapp-objc.git', :tag => '1.0.0' }
+  s.source   = { :git => 'https://github.com/postageapp/postageapp-objc.git', :tag => '1.0.0' }
   s.source_files = 'PostageKit/*.{h,m}'
   s.requires_arc = true
   s.dependency 'AFNetworking', '>= 1.1.0'
