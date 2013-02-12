@@ -69,9 +69,9 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:PostageKitSample-Mac/PostageKitSample-Mac.xcodeproj">
+      location = "group:PostageKitSample-iOS/PostageKitSample-iOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:PostageKitSample-iOS/PostageKitSample-iOS.xcodeproj">
+      location = "group:PostageKitSample-Mac/PostageKitSample-Mac.xcodeproj">
    </FileRef>
 </Workspace>
