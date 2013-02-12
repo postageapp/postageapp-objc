@@ -2,37 +2,37 @@ PostageKit
 ==========
 
 ##Introduction
-
+<br/>
 PostageKit is an Objective-C wrapper for the popular PostageApp transactional mail service and allows developers to access the PostageApp API from their iOS / Mac OSX applications.
 
+<br/>
 
 ##Quick Start
 
-To get started, first clone the repo:
+### Cocoapods
 
-	git clone https://github.com/twg/PostageKit.git
+[Cocoapods](http://cocoapods.org/) is a great way to manage your iOS and Mac OSX dependencies. The easiest way to set up PostageKit is to install through Cocoapods. Add the following to your Podfile:
+
+	platform :ios
+	pod 'PostageKit'
 	
-Then, copy over the PostageKit project into your application. Drag the .project file into XCode under your project's 'Frameworks' folder. Next, add the following to your target's 'Build Settings':
+…or for Mac OS X
 
-	other linker flags: -ObjC -all_load
+	platform :mac
+	pod 'PostageKit'
 	
-Next, add the following to your 'Build Phases'
+And install:
 
-* Target Dependencies
-	* PostageKit
-* Link Binary With Libraries
-	* libPostageKit.a
-	* MobileCoreServices.framework
-	* SystemConfiguration.framework
-		
-		
-Finally, add the PostageKit Framework header to your project's .pch file
-
-	#import <PostageKit/PostageKit.h>
+	pod install
 	
-Now you're able to use the PostageApp API!
+### Manual Installation
+
+You can also manually import the files from the `PostageKit/` folder into your project if you don't use Cocoapods. Note that PostageKit relies on [AFNetworking](https://github.com/AFNetworking/AFNetworking), so you will need to add those files manually as well.
+
+<br/>
 
 ## API Usage
+<br/>
 
 The API provides an asynchronous client interface by using [blocks](http://developer.apple.com/library/ios/#documentation/cocoa/Conceptual/Blocks/Articles/00_Introduction.html). To start using the API, you will first need to setup the API client with your PostageApp project API key:
 
@@ -67,4 +67,9 @@ You can also send messages as well!
     } error:^(NSError *error, id json) {
 		// Error
     }];
+    
+<br/>
 
+## Authors
+<br/>
+[Stephan Leroux](https://github.com/sleroux/) - stephanleroux@gmail.com
